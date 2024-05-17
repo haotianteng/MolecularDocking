@@ -23,4 +23,65 @@ function install_diffbindfr {
     cd ..
     echo "DiffBindFR has been installed."
 }
-    
+
+#install diffdock
+function install_diffdock {
+    echo "Installing diffdock..."
+    #git clone
+    #TODO
+}
+
+#install unimol
+function install_unimol {
+    echo "Installing unimol..."
+    #git clone
+    #TODO
+}
+
+#install dtmol
+function install_dtmol {
+    echo "Installing dtmol..."
+    #git clone
+    #TODO
+}
+
+#install smina
+function install_smina {
+    echo "Installing smina..."
+    #git clone
+    #TODO
+}
+
+#install gnina
+function install_gnina {
+    echo "Installing gnina..."
+    #git clone
+    #TODO
+}
+
+#install
+for arg in $@; do
+    case $arg in
+        "diffbindfr")
+            install_diffbindfr
+            ;;
+        "diffdock")
+            install_diffdock
+            ;;
+        "unimol")
+            install_unimol
+            ;;
+        "dtmol")
+            install_dtmol
+            ;;
+        "smina")
+            install_smina
+            ;;
+        "gnina")
+            install_gnina
+            ;;
+        *)
+            echo "Invalid package name: $arg"
+            ;;
+    esac
+done
