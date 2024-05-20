@@ -36,7 +36,11 @@ class Runner(object):
             ligand_f = os.path.join(self.df, pdb_id, f"{pdb_id}{ref_ligand_postfix}")
             ref_l = os.path.join(self.df, pdb_id, f"{pdb_id}{ligand_postfix}")
             out = os.path.join(self.save_dir, f"{pdb_id}_result.sdf")
-            mol,scores = method(receptor_f, ligand_f, ref_l, out)
+            try:
+                mol,scores = method(receptor_f, ligand_f, ref_l, out)
+            except Exception as e:
+                print(f"Failed to run {pdb_id}: {e}")
+                continue
             curr_rmsd = self.get_rmsd(mol, read_molecule(ref_l))
             #rank the rmsd values by the scores
             curr_rmsd = [x for _,x in sorted(zip(scores, curr_rmsd))]
