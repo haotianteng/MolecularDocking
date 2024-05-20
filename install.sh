@@ -56,7 +56,10 @@ function install_dtmol {
 #install smina
 function install_smina {
     echo "Installing smina..."
-    #git clone
+    mkdir -p smina
+    cd smina
+    wget https://sourceforge.net/projects/smina/files/smina.static/download -O smina
+    chmod +x smina
     #TODO
 }
 
