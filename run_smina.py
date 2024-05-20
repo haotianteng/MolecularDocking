@@ -17,6 +17,7 @@ def run_once(receptor_f, ligand_f, orig_ligand_f, out_f, box_add=5, **kwargs):
     #read back the output file and return the mol
     mol = Chem.SDMolSupplier(out_f)
     scores = [float(m.GetProp('minimizedAffinity')) for m in mol]
+    return mol, scores
 
 
 def run_pb(df, out_f, mode, box_add=5, **kwargs):
@@ -49,13 +50,16 @@ if __name__ == "__main__":
         os.makedirs(out_f2, exist_ok=True)
         run_pb(os.path.join(CURR_F, 'datasets/pb/posebusters_benchmark_set'), out_f2, mode = args.mode, box_add=args.box_add, **smina_args)
     elif args.dataset == 'pdbbind':
+        out_f = os.path.join(out_f, 'pdbbind')
         run_pdbbind(os.path.join(CURR_F, 'datasets/PDBBind_processed_test'), 
                     out_f, 
                     mode = args.mode,
                     box_add=args.box_add)
     elif args.dataset == 'test':
-        run_pb(os.path.join(CURR_F, 'datasets/test'), out_f, mode = args.mode, use_cnn_score = args.use_cnn_score, box_add=args.box_add, **smina_args)
+        out_f = os.path.join(out_f,'test')
+        run_pb(os.path.join(CURR_F, 'datasets/test'), out_f, mode = args.mode, box_add=args.box_add, **smina_args)
     else:
         print('Invalid dataset name')
         sys.exit(1)
+
 
