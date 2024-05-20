@@ -38,10 +38,10 @@ class Runner(object):
             out = os.path.join(self.save_dir, f"{pdb_id}_result.sdf")
             try:
                 mol,scores = method(receptor_f, ligand_f, ref_l, out)
+                curr_rmsd = self.get_rmsd(mol, read_molecule(ref_l))
             except Exception as e:
                 print(f"Failed to run {pdb_id}: {e}")
                 continue
-            curr_rmsd = self.get_rmsd(mol, read_molecule(ref_l))
             #rank the rmsd values by the scores
             curr_rmsd = [x for _,x in sorted(zip(scores, curr_rmsd))]
             rmsd_vals.append(curr_rmsd)
