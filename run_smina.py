@@ -44,16 +44,17 @@ if __name__ == "__main__":
     if args.dataset == 'pb':
         out_f1 = os.path.join(out_f, 'pb_astex')
         os.makedirs(out_f1, exist_ok=True)
-        run_pb(os.path.join(CURR_F, 'datasets/pb/astex_diverse_set'), out_f1, box_add=args.box_add, **smina_args)
+        run_pb(os.path.join(CURR_F, 'datasets/pb/astex_diverse_set'), out_f1, mode = args.mode, box_add=args.box_add, **smina_args)
         out_f2 = os.path.join(out_f, 'pb')
         os.makedirs(out_f2, exist_ok=True)
-        run_pb(os.path.join(CURR_F, 'datasets/pb/posebusters_benchmark_set'), out_f2, box_add=args.box_add, **smina_args)
+        run_pb(os.path.join(CURR_F, 'datasets/pb/posebusters_benchmark_set'), out_f2, mode = args.mode, box_add=args.box_add, **smina_args)
     elif args.dataset == 'pdbbind':
         run_pdbbind(os.path.join(CURR_F, 'datasets/PDBBind_processed_test'), 
                     out_f, 
+                    mode = args.mode,
                     box_add=args.box_add)
     elif args.dataset == 'test':
-        run_pb(os.path.join(CURR_F, 'datasets/test'), out_f,use_cnn_score = args.use_cnn_score, box_add=args.box_add, **smina_args)
+        run_pb(os.path.join(CURR_F, 'datasets/test'), out_f, mode = args.mode, use_cnn_score = args.use_cnn_score, box_add=args.box_add, **smina_args)
     else:
         print('Invalid dataset name')
         sys.exit(1)
