@@ -8,7 +8,7 @@ fi
 #install diffbindfr
 function install_diffbindfr {
     echo "Installing diffbindfr..."
-    #git clone https://github.com/HBioquant/DiffBindFR.git
+    git clone https://github.com/HBioquant/DiffBindFR.git
     cd DiffBindFR
     #check if cuda version is 11.7
     if [ $(nvcc --version | grep "release 11.7" | wc -l) -ne 1 ]; then
@@ -16,7 +16,7 @@ function install_diffbindfr {
         exit 1
     fi
     #pip uninstall -y torch-scatter torch-cluster torch-sparse torch-spline-conv torchmetrics torch-geometric
-    conda env create -f diffbindfr.yml
+    conda env create -f env.yaml
     conda activate diffbindfr
     pip install -e .
     conda deactivate
