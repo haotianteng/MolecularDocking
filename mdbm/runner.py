@@ -6,14 +6,16 @@ from rdkit import Chem
 from mdbm.utils.mol import rmsd,read_molecule
 
 class Runner(object):
-    def __init__(self, df, save_dir):
+    def __init__(self, df, save_dir, mode = "nohup"):
         """
         df: str, path to the directory of the pdbbind_test dataset
         save_dir: str, path to the directory to save the results
+        mode: str, the mode to run, can be 'nohup' mode and 'debug' mode, will first didn't stop running will fail and keep running.
         """
         self.df = df
         self.save_dir = save_dir
         self.pdb_ids = list(os.listdir(df))
+        self.mode = mode
 
     def run(self,method:Callable):
         """
@@ -40,8 +42,11 @@ class Runner(object):
                 mol,scores = method(receptor_f, ligand_f, ref_l, out)
                 curr_rmsd = self.get_rmsd(mol, read_molecule(ref_l))
             except Exception as e:
-                print(f"Failed to run {pdb_id}: {e}")
-                continue
+                if self.mode == "nohup":
+                    print(f"Failed to run {pdb_id}: {e}")
+                    continue
+                else:
+                    raise e
             #rank the rmsd values by the scores
             curr_rmsd = [x for _,x in sorted(zip(scores, curr_rmsd))]
             rmsd_vals.append(curr_rmsd)

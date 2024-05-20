@@ -19,13 +19,13 @@ def run_once(receptor_f, ligand_f, orig_ligand_f, out_f, box_add=5, **kwargs):
     scores = [float(m.GetProp('minimizedAffinity')) for m in mol]
 
 
-def run_pb(df, out_f, box_add=5,use_cnn_score = True, **kwargs):
-    runner = PBRunner(df, out_f)
+def run_pb(df, out_f, mode, box_add=5, **kwargs):
+    runner = PBRunner(df, out_f, mode=mode)
     method = partial(run_once, box_add=box_add, **kwargs)
     runner.run(method)
 
-def run_pdbbind(df, out_f, box_add=5,use_cnn_score = True, **kwargs):
-    runner = PDBBindRunner(df, out_f)
+def run_pdbbind(df, out_f, mode, box_add=5, **kwargs):
+    runner = PDBBindRunner(df, out_f, mode=mode)
     method = partial(run_once, box_add=box_add, **kwargs)
     runner.run(method)
 
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run smina')
     parser.add_argument('--dataset', type=str, default='pb', help='dataset name to run')
     parser.add_argument('--box_add', type=int, default=5, help='box add value')
+    parser.add_argument('--mode', type=str, default='nohup', help='mode to run, can be nohup or debug')
     #take the rest of the arguments as smina arguments
     args,additional_args = parser.parse_known_args(sys.argv[1:])
     smina_args = {}
