@@ -100,7 +100,7 @@ class PDBBindRunner(Runner):
         """
         Run the method on the pdbbind_test dataset
         """
-        protein_postfix = '_protein.pdb'
+        protein_postfix = '_protein_processed.pdb'
         ref_ligand_postfix = '_ligand.sdf'
         ligand_postfix = '_ligand.sdf'
         return self._run(method, protein_postfix, ref_ligand_postfix, ligand_postfix)
