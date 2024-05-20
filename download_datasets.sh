@@ -23,6 +23,21 @@ else
     echo "posebuster data folder already exists"
 fi
 
+#split the pdbbind dataset by ../pdbbind_timesplit.txt
+if [ ! -d "PDBBind_processed_test" ]; then
+    #read in the pdb_ids in ../pdbbind_timesplit.txt file
+    mkdir -p PDBBind_processed_test
+    while IFS= read -r line
+    do
+        echo "Copying $line to PDBBind_processed_test"
+        #copy the folder to PDBBind_processed_test
+        cp -r PDBBind_processed/$line PDBBind_processed_test/
+    done < ../pdbbind_timesplit.txt
+
+else
+    echo "PDBBind_processed_test folder already exists"
+fi
+
 #Check if PDBBind dataset is downloaded correctly and has 19120 folders in PDBBind_processed
 echo "Checking if PDBBind dataset is downloaded correctly..."
 if [ ! -d "PDBBind_processed" ]; then
@@ -36,6 +51,21 @@ else
         echo "PDBBind dataset has been downloaded correctly."
     fi
 fi
+
+#check if PDBBind_processed_test has 363 folders
+echo "Checking if PDBBind_processed_test dataset is splited correctly..."
+if [ ! -d "PDBBind_processed_test" ]; then
+    echo "PDBBind_processed_test dataset is not splited correctly. Please check the download link."
+    exit 1
+else
+    if [ $(ls PDBBind_processed_test | wc -l) -ne 363 ]; then
+        echo "PDBBind_processed_test dataset is not splited correctly. Please check the download link."
+        exit 1
+    else
+        echo "PDBBind_processed_test dataset has been splited correctly."
+    fi
+fi
+
 
 #Check if posebuster dataset is downloaded correctly and has 428 folders in pb/posebusters_benchmark_set and 85 folders in pb/astex_diverse_set
 echo "Checking if posebuster dataset is downloaded correctly..."

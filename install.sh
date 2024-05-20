@@ -27,8 +27,16 @@ function install_diffbindfr {
 #install diffdock
 function install_diffdock {
     echo "Installing diffdock..."
-    #git clone
-    #TODO
+    git clone https://github.com/gcorso/DiffDock.git
+    cd DiffDock
+    git checkout 5238b18
+    if [ $(nvcc --version | grep "release 11.7" | wc -l) -ne 1 ]; then
+        echo "DiffBindFR requires CUDA 11.7. Please switch CUDA to 11.7 and try again."
+        exit 1
+    fi
+    conda env create --file environment.yml
+    conda activate diffdock
+
 }
 
 #install unimol
@@ -55,8 +63,38 @@ function install_smina {
 #install gnina
 function install_gnina {
     echo "Installing gnina..."
-    #git clone
-    #TODO
+    mkdir -p gnina
+    cd gnina
+    wget https://github.com/gnina/gnina/releases/download/v1.1/gnina
+    chmod +x gnina
+
+    # or install from source (require sudo permission to successfully install)
+    # BASE=$(pwd)
+    # mkdir -p run
+    # git clone https://github.com/openbabel/openbabel.git
+    # cd openbabel
+    # mkdir build
+    # cd build
+    # cmake -DWITH_MAEPARSER=OFF -DWITH_COORDGEN=OFF -DPYTHON_BINDINGS=ON -DRUN_SWIG=ON -DCMAKE_INSTALL_PREFIX=${BASE}/run/ ..
+    # make -j4
+    # make install
+
+    # cd ${BASE}
+    # wget https://github.com/Kitware/CMake/releases/download/v3.25.2/cmake-3.25.2-Linux-x86_64.tar.gz
+    # tar -xvf cmake-3.25.2-Linux-x86_64.tar.gz
+    # rm cmake-3.25.2-Linux-x86_64.tar.gz
+    # if [ $(nvcc --version | grep "release 12" | wc -l) -ne 1 ]; then
+    #     echo "gnina requires CUDA > 12.0. Please switch CUDA to 12.0 or higher and try again."
+    #     exit 1
+    # fi
+    # git clone https://github.com/gnina/gnina.git
+    # cd gnina
+    # mkdir build 
+    # cd build
+    # cmake -DCMAKE_PREFIX_PATH=${BASE}/run/ -DOpenBabel3_DIR=${BASE}/run/ ..
+    # make -j4
+    # make install
+
 }
 
 #install
