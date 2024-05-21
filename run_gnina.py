@@ -35,7 +35,8 @@ def run_pdbbind(df, out_f, box_add=5,use_cnn_score = True, **kwargs):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run gnina')
     parser.add_argument('--dataset', type=str, default='pb', help='dataset name to run')
-    parser.add_argument('--box_add', type=int, default=5, help='box add value')
+    parser.add_argument('--output', type=str, default='gnina_out', help='output directory')
+    parser.add_argument('--box_add', type=int, default=4, help='box add value')
     parser.add_argument('--no_cnn_score', action='store_false',dest = 'use_cnn_score', help='use the minimizedAffinity score instead of CNNscore')
     parser.add_argument('--max_posture', type=int, default=10, help='max number of postures kept')
     #take the rest of the arguments as gnina arguments
@@ -43,7 +44,7 @@ if __name__ == "__main__":
     gnina_args = {}
     for i in range(0,len(additional_args),2):
         gnina_args[additional_args[i]] = additional_args[i+1]
-    out_f = os.path.join(CURR_F, 'output', 'gnina_out')
+    out_f = os.path.join(CURR_F, 'output', args.output)
     os.makedirs(out_f, exist_ok=True)
     if args.dataset == 'pb':
         out_f1 = os.path.join(out_f, 'pb_astex')

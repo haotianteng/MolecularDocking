@@ -33,14 +33,15 @@ def run_pdbbind(df, out_f, mode, box_add=5, **kwargs):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run smina')
     parser.add_argument('--dataset', type=str, default='pb', help='dataset name to run')
-    parser.add_argument('--box_add', type=int, default=5, help='box add value')
+    parser.add_argument('--output', type=str, default='smina_out', help='output directory')
+    parser.add_argument('--box_add', type=int, default=4, help='box add value')
     parser.add_argument('--mode', type=str, default='nohup', help='mode to run, can be nohup or debug')
     #take the rest of the arguments as smina arguments
     args,additional_args = parser.parse_known_args(sys.argv[1:])
     smina_args = {}
     for i in range(0,len(additional_args),2):
         smina_args[additional_args[i]] = additional_args[i+1]
-    out_f = os.path.join(CURR_F, 'output', 'smina_out')
+    out_f = os.path.join(CURR_F, 'output', args.output)
     os.makedirs(out_f, exist_ok=True)
     if args.dataset == 'pb':
         out_f1 = os.path.join(out_f, 'pb_astex')
