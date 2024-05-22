@@ -6,9 +6,7 @@ from rdkit import Chem
 from functools import partial
 from mdbm.utils.mol import read_molecule
 from mdbm.runner import PDBBindRunner, PBRunner
-
 CURR_F= os.path.dirname(os.path.abspath(__file__))
-
 def run_once(receptor_f, ligand_f, orig_ligand_f, out_f, box_add=5, use_cnn_score = True, **kwargs):
     additional_args = " ".join([f"{k} {v}" for k,v in kwargs.items()])
     cmd = f'./gnina/gnina -r {receptor_f} -l {ligand_f} --autobox_ligand {orig_ligand_f} -o {out_f} --autobox_add {box_add} {additional_args}'
@@ -42,7 +40,7 @@ if __name__ == "__main__":
     #take the rest of the arguments as gnina arguments
     args,additional_args = parser.parse_known_args(sys.argv[1:])
     gnina_args = {}
-    for i in range(0,len(additional_args),2):
+    for i in range(0,len(additional_args)-1,2):
         gnina_args[additional_args[i]] = additional_args[i+1]
     out_f = os.path.join(CURR_F, 'output', args.output)
     os.makedirs(out_f, exist_ok=True)

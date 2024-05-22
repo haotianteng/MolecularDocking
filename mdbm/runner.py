@@ -4,6 +4,38 @@ import numpy as np
 from typing import Callable
 from rdkit import Chem
 from mdbm.utils.mol import rmsd,read_molecule
+from time import time
+
+class Timer(object):
+    def __init__(self):
+        self.event_list =  None
+        self.curr_event = -1
+        self.curr_time = time()
+        self.records = {}
+        self.timing = False
+
+    def reset_for(self, events):
+        """Reset the timer and set the count_list
+        events: A list of events need to record the time
+        """
+        self.event_list = events
+        self.curr_event = -1
+        self.timing = False
+
+    def start_next(self):
+        self.curr_event += 1
+        assert not self.timing, "You need to stop the current timing event first"
+        self.timing = True
+        self.curr_time = time()
+
+    def end_current(self):
+        self.records[self.event_list[self.curr_event]] = time() - self.curr_time
+        assert self.timing, "You need to start the timing event first"
+        self.timing = False
+
+    def average_time(self):
+        return np.mean(list(self.records.values()))
+    
 
 class Runner(object):
     def __init__(self, df, save_dir, mode = "nohup"):
@@ -16,6 +48,7 @@ class Runner(object):
         self.save_dir = save_dir
         self.pdb_ids = list(os.listdir(df))
         self.mode = mode
+        self.timer = Timer()
 
     def run(self,method:Callable):
         """
@@ -32,8 +65,10 @@ class Runner(object):
         #empty the report file
         report_f = os.path.join(self.save_dir, 'rmsd_report.txt')
         with open(report_f, 'w') as f:
-            f.write("PDB ID\tRMSD(conformers)\n")
+            f.write("PDB ID\tRMSD(conformers)\tElapsed Time\n")
+        self.timer.reset_for(self.pdb_ids)
         for pdb_id in self.pdb_ids:
+            self.timer.start_next()
             receptor_f = os.path.join(self.df, pdb_id, f"{pdb_id}{protein_postfix}")
             ligand_f = os.path.join(self.df, pdb_id, f"{pdb_id}{ref_ligand_postfix}")
             ref_l = os.path.join(self.df, pdb_id, f"{pdb_id}{ligand_postfix}")
@@ -44,9 +79,11 @@ class Runner(object):
             except Exception as e:
                 if self.mode == "nohup":
                     print(f"Failed to run {pdb_id}: {e}")
+                    self.timer.end_current()
                     continue
                 else:
                     raise e
+            self.timer.end_current()
             #rank the rmsd values by the scores
             curr_rmsd = [x for _,x in sorted(zip(scores, curr_rmsd))]
             rmsd_vals.append(curr_rmsd)
@@ -72,7 +109,7 @@ class Runner(object):
     def single_rmsd_report(self,pdb_id, rmsd_vals, scores):
         report_f = os.path.join(self.save_dir, 'rmsd_report.txt')
         with open(report_f, 'a') as f:
-            msg = f"{pdb_id}\t{' '.join([str(x) for x in rmsd_vals])}\n"
+            msg = f"{pdb_id}\t{' '.join([str(x) for x in rmsd_vals])}\t{self.timer.records[pdb_id]}\n"
             f.write(msg)
             print(msg)
 
@@ -98,6 +135,9 @@ class Runner(object):
             f.write(f"Median RMSD (Top 1): {np.median([r[0] for r in rmsd_vals])}")
             #report the median top5 rmsd
             f.write(f"Median RMSD (Top 5): {np.median([min(r[:5]) for r in rmsd_vals])}")
+            #report for the running time:
+            f.write(f"Average running time {self.timer.average_time()}")
+
         return summary_f
 
 class PDBBindRunner(Runner):

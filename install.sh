@@ -48,8 +48,20 @@ function install_diffdock {
 #install unimol
 function install_unimol {
     echo "Installing unimol..."
-    #git clone
-    #TODO
+    conda create -n unimol python=3.10
+    conda activate unimol
+    mkdir -p unimol
+    cd unimol
+    git clone https://github.com/dptech-corp/Uni-Mol.git
+    cd Uni-Mol/unimol
+    pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1
+    python setup.py install
+    cd ../../
+    git clone https://github.com/dptech-corp/Uni-Core.git
+    cd Uni-Core
+    python setup.py install
+    cd ../../Uni-Mol/unimol
+
 }
 
 #install dtmol
