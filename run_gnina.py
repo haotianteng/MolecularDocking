@@ -52,10 +52,14 @@ if __name__ == "__main__":
         os.makedirs(out_f2, exist_ok=True)
         run_pb(os.path.join(CURR_F, 'datasets/pb/posebusters_benchmark_set'), out_f2,use_cnn_score = args.use_cnn_score, box_add=args.box_add, **gnina_args)
     elif args.dataset == 'pdbbind':
+        out_f = os.path.join(out_f, 'pdbbind')
+        os.makedirs(out_f, exist_ok=True)
         run_pdbbind(os.path.join(CURR_F, 'datasets/PDBBind_processed_test'), 
                     out_f, 
                     box_add=args.box_add)
     elif args.dataset == 'test':
+        out_f = os.path.join(out_f, 'test')
+        os.makedirs(out_f, exist_ok=True)
         run_pb(os.path.join(CURR_F, 'datasets/test'), out_f,use_cnn_score = args.use_cnn_score, box_add=args.box_add, **gnina_args)
     else:
         print('Invalid dataset name')
