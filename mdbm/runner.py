@@ -70,8 +70,8 @@ class Runner(object):
         for pdb_id in self.pdb_ids:
             self.timer.start_next()
             receptor_f = os.path.join(self.df, pdb_id, f"{pdb_id}{protein_postfix}")
-            ligand_f = os.path.join(self.df, pdb_id, f"{pdb_id}{ref_ligand_postfix}")
-            ref_l = os.path.join(self.df, pdb_id, f"{pdb_id}{ligand_postfix}")
+            ref_l = os.path.join(self.df, pdb_id, f"{pdb_id}{ref_ligand_postfix}")
+            ligand_f = os.path.join(self.df, pdb_id, f"{pdb_id}{ligand_postfix}")
             out = os.path.join(self.save_dir, f"{pdb_id}_result.sdf")
             try:
                 mol,scores = method(receptor_f, ligand_f, ref_l, out)
@@ -150,7 +150,7 @@ class PDBBindRunner(Runner):
         """
         protein_postfix = '_protein_processed.pdb'
         ref_ligand_postfix = '_ligand.sdf'
-        ligand_postfix = '_ligand.sdf'
+        ligand_postfix = '_ligand_rdkit.sdf'
         return self._run(method, protein_postfix, ref_ligand_postfix, ligand_postfix)
 
 
