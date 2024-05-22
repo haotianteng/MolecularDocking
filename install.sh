@@ -5,6 +5,10 @@ if [ $# -eq 0 ]; then
 fi
 #package including diffbindfr, diffdock, unimol, dtmol, smina and gnina
 
+function get_cuda_version {
+    nvcc --version | grep release | awk '{print $5}' | cut -d',' -f1
+}
+
 #install diffbindfr
 function install_diffbindfr {
     echo "Installing diffbindfr..."
@@ -31,6 +35,8 @@ function install_diffdock {
     cd DiffDock
     git checkout 5238b18
     if [ $(nvcc --version | grep "release 11.7" | wc -l) -ne 1 ]; then
+        #get the version number after release
+
         echo "DiffBindFR requires CUDA 11.7. Please switch CUDA to 11.7 and try again."
         exit 1
     fi
