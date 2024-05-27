@@ -104,7 +104,7 @@ class Runner(object):
         rmsd_vals = []
         for mol in mol_cluster:
             rmsd_vals.append(rmsd(mol, target_mol))
-        return sorted(rmsd_vals)
+        return rmsd_vals
     
     def single_rmsd_report(self,pdb_id, rmsd_vals, scores):
         report_f = os.path.join(self.save_dir, 'rmsd_report.txt')
@@ -140,7 +140,7 @@ class Runner(object):
             #report the median top5 rmsd
             f.write(f"Median RMSD (Top 5): {np.median([min(r[:5]) for r in rmsd_vals])}\n")
             #report for the running time:
-            f.write(f"Average running time {self.timer.average_time()}\n")
+            f.write(f"Average running time per docking {self.timer.average_time()}\n")
         return summary_f
 
 class PDBBindRunner(Runner):
