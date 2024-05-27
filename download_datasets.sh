@@ -91,4 +91,6 @@ cp -r pb/astex_diverse_set/1G9V_RQ3 test/
 cp -r pb/astex_diverse_set/1GKC_NFH test/
 cp -r pb/astex_diverse_set/1GM8_SOX test/
 
+
 echo "All datasets have been downloaded."
+

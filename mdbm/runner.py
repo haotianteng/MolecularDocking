@@ -124,23 +124,23 @@ class Runner(object):
         summary_f = os.path.join(self.save_dir, 'rmsd_summary.txt')
         with open(summary_f, 'w') as f:
             #report porpotion of rmsd < 5
-            f.write(f"Proportion of RMSD < 5 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 5])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 5 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 5])/len(rmsd_vals)}\n")
             #report porpotion of rmsd < 2
-            f.write(f"Proportion of RMSD < 2 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 2])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 2 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 2])/len(rmsd_vals)}\n")
             #report porpotion of rmsd < 1
-            f.write(f"Proportion of RMSD < 1 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 1])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 1 (Top 1): {len([r[0] for r in rmsd_vals if r[0] < 1])/len(rmsd_vals)}\n")
             #report porpotion of rmsd < 5 for top 5 scores rmsd
-            f.write(f"Proportion of RMSD < 5 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 5])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 5 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 5])/len(rmsd_vals)}\n")
             #report porpotion of rmsd < 2 for top 5 scores rmsd
-            f.write(f"Proportion of RMSD < 2 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 2])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 2 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 2])/len(rmsd_vals)}\n")
             #report propotion of rmsd <1 for top 5 scores rmsd
-            f.write(f"Proportion of RMSD < 1 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 1])/len(rmsd_vals)}")
+            f.write(f"Proportion of RMSD < 1 (Top 5): {len([min(r[:5]) for r in rmsd_vals if min(r[:5]) < 1])/len(rmsd_vals)}\n")
             #report the median top1 rmsd
-            f.write(f"Median RMSD (Top 1): {np.median([r[0] for r in rmsd_vals])}")
+            f.write(f"Median RMSD (Top 1): {np.median([r[0] for r in rmsd_vals])}\n")
             #report the median top5 rmsd
-            f.write(f"Median RMSD (Top 5): {np.median([min(r[:5]) for r in rmsd_vals])}")
+            f.write(f"Median RMSD (Top 5): {np.median([min(r[:5]) for r in rmsd_vals])}\n")
             #report for the running time:
-            f.write(f"Average running time {self.timer.average_time()}")
+            f.write(f"Average running time {self.timer.average_time()}\n")
         return summary_f
 
 class PDBBindRunner(Runner):

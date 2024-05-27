@@ -43,7 +43,7 @@ function install_diffdock {
     conda env create --file environment.yml
     conda activate diffdock
     pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
-    pip install torch_scatter torch_sparse torch_cluster -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
+    pip install torch_geometric torch_scatter torch_sparse torch_cluster -f https://data.pyg.org/whl/torch-1.13.1+cu117.html
     pip install prody rdkit networkx fair-esm[esmfold]==2.0.0 e3nn==0.5.1 
     cd data
     wget https://zenodo.org/records/10656052/files/BindingMOAD_2020_processed.tar?download=1
